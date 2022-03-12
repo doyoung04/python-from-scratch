@@ -1,4 +1,4 @@
- # """ 1~3 """
+# """ 1~3 """
 # import requests
 
 # res = requests.get("https://www.google.com")
@@ -123,35 +123,135 @@
 # for cartoon in cartoons:
 #     print(cartoon.get_text())
 
-""" 8 """
+# """ 8 """
+# import requests
+# from bs4 import BeautifulSoup
+
+# url = "https://comic.naver.com/webtoon/list?titleId=675554"
+# res = requests.get(url)
+# res.raise_for_status()
+
+# soup = BeautifulSoup(res.text, "lxml")
+# cartoons = soup.find_all("td", attrs={"class":"title"})
+# # title = cartoons[0].a.get_text()
+# # link = cartoons[0].a["href"]
+# # print(title)
+# # print("https://comic.naver.com" + link)
+# # # title = cartoons[1].a.get_text()
+# # # print(title)
+
+# # 만화 제목 + 링크 가져오기
+# # for cartoon in cartoons:
+# #     title = cartoon.a.get_text()
+# #     link = "https://comic.naver.com" + cartoon.a["href"]
+# #     print(title, link)
+
+# # 평점 구하기
+# total_rates = 0
+# cartoons = soup.find_all("div", attrs={"class":"rating_type"})
+# for cartoon in cartoons:
+#     rate = cartoon.find("strong").get_text()
+#     print(rate)
+#     total_rates += float(rate)
+# print("전체 점수 :", total_rates)
+# print("평균 점수 :", total_rates / len(cartoons))
+
+# """ 9 """
+# import requests
+# import re
+# from bs4 import BeautifulSoup
+
+# url = "https://www.coupang.com/np/search?rocketAll=false&q=%EB%85%B8%ED%8A%B8%EB%B6%81&brand=&offerCondition=&filter=&availableDeliveryFilter=&filterType=&isPriceRange=false&priceRange=&minPrice=&maxPrice=&page=1&trcid=&traid=&filterSetByUser=true&channel=user&backgroundColor=&searchProductCount=5834663&component=&rating=0&sorter=scoreDesc&listSize=36"
+# headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36"}
+# res = requests.get(url, headers=headers)
+# res.raise_for_status()
+# soup = BeautifulSoup(res.text, "lxml")
+
+# # "li" tag 중 class 정보가 search-product으로 시작하는 모든 li element을 가져옴
+# items = soup.find_all("li", attrs={"class":re.compile("^search-product")})
+# # print(items[0].find("div", attrs={"class":"name"}).get_text())
+
+# for item in items:
+
+#     # 광고 제품은 제외
+#     ad_badge = item.find("span", attrs={"class":"ad-badge-text"})
+#     if ad_badge:
+#         # print("     광고 상품 제외합니다")
+#         continue
+
+#     name = item.find("div", attrs={"class":"name"}).get_text()
+#     # Apple 제품 제외
+#     if "Apple" in name:
+#         # print("     Apple 상품 제외합니다")
+#         continue
+
+#     price = item.find("strong", attrs={"class":"price-value"}).get_text()
+    
+#     # 리뷰 100개 이상, 평점 4.5 이상 되는 것만 조회
+#     rate = item.find("em", attrs={"class":"rating"})
+#     if rate:
+#         rate = rate.get_text()
+#     else:
+#         # print("     평점 없는 상품 제외합니다.")
+#         continue
+    
+#     rate_cnt = item.find("span", attrs={"class":"rating-total-count"})
+#     if rate_cnt:
+#         rate_cnt = rate_cnt.get_text() # ex : (26) 괄호 포함
+#         rate_cnt = rate_cnt[1:-1] # 괄호 제외
+#     else:
+#         # print("     평점 수 없는 상품 제외합니다.")
+#         continue
+
+#     if float(rate) >= 4.5 and int(rate_cnt) >= 100:
+#         print(name[:16], price, rate, rate_cnt)
+
+""" 10 """
 import requests
+import re
 from bs4 import BeautifulSoup
 
-url = "https://comic.naver.com/webtoon/list?titleId=675554"
-res = requests.get(url)
-res.raise_for_status()
+headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36"}
 
-soup = BeautifulSoup(res.text, "lxml")
-cartoons = soup.find_all("td", attrs={"class":"title"})
-# title = cartoons[0].a.get_text()
-# link = cartoons[0].a["href"]
-# print(title)
-# print("https://comic.naver.com" + link)
-# # title = cartoons[1].a.get_text()
-# # print(title)
+for i in range(1, 6):
+    url = "https://www.coupang.com/np/search?rocketAll=false&q=%EB%85%B8%ED%8A%B8%EB%B6%81&brand=&offerCondition=&filter=&availableDeliveryFilter=&filterType=&isPriceRange=false&priceRange=&minPrice=&maxPrice=&page={}&trcid=&traid=&filterSetByUser=true&channel=user&backgroundColor=&searchProductCount=5834663&component=&rating=0&sorter=scoreDesc&listSize=36".format(i)
+    res = requests.get(url, headers=headers)
+    res.raise_for_status()
+    soup = BeautifulSoup(res.text, "lxml")
+    items = soup.find_all("li", attrs={"class":re.compile("^search-product")})
 
-# 만화 제목 + 링크 가져오기
-# for cartoon in cartoons:
-#     title = cartoon.a.get_text()
-#     link = "https://comic.naver.com" + cartoon.a["href"]
-#     print(title, link)
+    for item in items:
+        # 광고 제품은 제외
+        ad_badge = item.find("span", attrs={"class":"ad-badge-text"})
+        if ad_badge:
+            continue
 
-# 평점 구하기
-total_rates = 0
-cartoons = soup.find_all("div", attrs={"class":"rating_type"})
-for cartoon in cartoons:
-    rate = cartoon.find("strong").get_text()
-    print(rate)
-    total_rates += float(rate)
-print("전체 점수 :", total_rates)
-print("평균 점수 :", total_rates / len(cartoons))
+        name = item.find("div", attrs={"class":"name"}).get_text()
+        # Apple 제품 제외
+        if "Apple" in name:
+            continue
+
+        price = item.find("strong", attrs={"class":"price-value"}).get_text()
+        
+        # 리뷰 500개 이상, 평점 5.0 이상 되는 것만 조회
+        rate = item.find("em", attrs={"class":"rating"})
+        if rate:
+            rate = rate.get_text()
+        else:
+            continue
+        
+        rate_cnt = item.find("span", attrs={"class":"rating-total-count"})
+        if rate_cnt:
+            rate_cnt = rate_cnt.get_text()[1:-1] # ex : (26) 괄호 포함, [1:-1]: 괄호 제외
+        else:
+            continue
+        
+        link = item.find("a", attrs={"class":"search-product-link"})["href"]
+        
+        if float(rate) >= 5.0 and int(rate_cnt) >= 500:
+            # print(name[:16], price, rate, rate_cnt)
+            print(f"제품명 : {name}")
+            print(f"가격 : {price}")
+            print(f"평점 : {rate}점 ({rate_cnt})개")
+            print("바로가기 : {}".format("https://www.coupang.com" + link))
+            print("="*80)
