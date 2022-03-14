@@ -206,52 +206,102 @@
 #     if float(rate) >= 4.5 and int(rate_cnt) >= 100:
 #         print(name[:16], price, rate, rate_cnt)
 
-""" 10 """
+# """ 10 """
+# import requests
+# import re
+# from bs4 import BeautifulSoup
+
+# headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36"}
+
+# for i in range(1, 6):
+#     url = "https://www.coupang.com/np/search?rocketAll=false&q=%EB%85%B8%ED%8A%B8%EB%B6%81&brand=&offerCondition=&filter=&availableDeliveryFilter=&filterType=&isPriceRange=false&priceRange=&minPrice=&maxPrice=&page={}&trcid=&traid=&filterSetByUser=true&channel=user&backgroundColor=&searchProductCount=5834663&component=&rating=0&sorter=scoreDesc&listSize=36".format(i)
+#     res = requests.get(url, headers=headers)
+#     res.raise_for_status()
+#     soup = BeautifulSoup(res.text, "lxml")
+#     items = soup.find_all("li", attrs={"class":re.compile("^search-product")})
+
+#     for item in items:
+#         # 광고 제품은 제외
+#         ad_badge = item.find("span", attrs={"class":"ad-badge-text"})
+#         if ad_badge:
+#             continue
+
+#         name = item.find("div", attrs={"class":"name"}).get_text()
+#         # Apple 제품 제외
+#         if "Apple" in name:
+#             continue
+
+#         price = item.find("strong", attrs={"class":"price-value"}).get_text()
+        
+#         # 리뷰 500개 이상, 평점 5.0 이상 되는 것만 조회
+#         rate = item.find("em", attrs={"class":"rating"})
+#         if rate:
+#             rate = rate.get_text()
+#         else:
+#             continue
+        
+#         rate_cnt = item.find("span", attrs={"class":"rating-total-count"})
+#         if rate_cnt:
+#             rate_cnt = rate_cnt.get_text()[1:-1] # ex : (26) 괄호 포함, [1:-1]: 괄호 제외
+#         else:
+#             continue
+        
+#         link = item.find("a", attrs={"class":"search-product-link"})["href"]
+        
+#         if float(rate) >= 5.0 and int(rate_cnt) >= 500:
+#             # print(name[:16], price, rate, rate_cnt)
+#             print(f"제품명 : {name}")
+#             print(f"가격 : {price}")
+#             print(f"평점 : {rate}점 ({rate_cnt})개")
+#             print("바로가기 : {}".format("https://www.coupang.com" + link))
+#             print("="*80)
+
+# """ 11 """
+# import os
+# import requests
+# from bs4 import BeautifulSoup
+
+# os.mkdir("movie")
+
+# for year in range(2015, 2020):
+#     url = "https://search.daum.net/search?w=tot&q={}%EB%85%84%EC%98%81%ED%99%94%EC%88%9C%EC%9C%84&DA=MOR&rtmaxcoll=MOR".format(year)
+#     res = requests.get(url)
+#     res.raise_for_status()
+#     soup = BeautifulSoup(res.text, "lxml")
+#     images = soup.find_all("img", attrs={"class":"thumb_img"})
+
+#     for idx, image in enumerate(images):
+#         image_url = image["src"]
+#         if image_url.startswith("//"):
+#             image_url = "https:" + image_url
+
+#         print(image["src"])
+#         image_res = requests.get(image_url)
+#         image_res.raise_for_status()
+
+#         with open("movie/movie_{}_{}.jpg".format(year, idx+1), "wb") as f:
+#             f.write(image_res.content)
+
+#         if idx >= 4: # 상위 5개까지만 출력
+#             break
+
+""" 12 """
+import csv
+from pyparsing import col
 import requests
-import re
 from bs4 import BeautifulSoup
 
-headers = {"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36"}
+url = "https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page="
 
-for i in range(1, 6):
-    url = "https://www.coupang.com/np/search?rocketAll=false&q=%EB%85%B8%ED%8A%B8%EB%B6%81&brand=&offerCondition=&filter=&availableDeliveryFilter=&filterType=&isPriceRange=false&priceRange=&minPrice=&maxPrice=&page={}&trcid=&traid=&filterSetByUser=true&channel=user&backgroundColor=&searchProductCount=5834663&component=&rating=0&sorter=scoreDesc&listSize=36".format(i)
-    res = requests.get(url, headers=headers)
+for page in range(1, 5):
+    res = requests.get(url+str(page))
     res.raise_for_status()
     soup = BeautifulSoup(res.text, "lxml")
-    items = soup.find_all("li", attrs={"class":re.compile("^search-product")})
 
-    for item in items:
-        # 광고 제품은 제외
-        ad_badge = item.find("span", attrs={"class":"ad-badge-text"})
-        if ad_badge:
+    data_rows = soup.find("table", attrs={"class":"type_2"}).find("tbody").find_all("tr")
+    for row in data_rows:
+        columns = row.find_all("td")
+        if len(columns) <= 1: # 의미 없는 데이터 skip
             continue
-
-        name = item.find("div", attrs={"class":"name"}).get_text()
-        # Apple 제품 제외
-        if "Apple" in name:
-            continue
-
-        price = item.find("strong", attrs={"class":"price-value"}).get_text()
-        
-        # 리뷰 500개 이상, 평점 5.0 이상 되는 것만 조회
-        rate = item.find("em", attrs={"class":"rating"})
-        if rate:
-            rate = rate.get_text()
-        else:
-            continue
-        
-        rate_cnt = item.find("span", attrs={"class":"rating-total-count"})
-        if rate_cnt:
-            rate_cnt = rate_cnt.get_text()[1:-1] # ex : (26) 괄호 포함, [1:-1]: 괄호 제외
-        else:
-            continue
-        
-        link = item.find("a", attrs={"class":"search-product-link"})["href"]
-        
-        if float(rate) >= 5.0 and int(rate_cnt) >= 500:
-            # print(name[:16], price, rate, rate_cnt)
-            print(f"제품명 : {name}")
-            print(f"가격 : {price}")
-            print(f"평점 : {rate}점 ({rate_cnt})개")
-            print("바로가기 : {}".format("https://www.coupang.com" + link))
-            print("="*80)
+        data = [column.get_text().strip() for column in columns] # strip(): 양쪽 공백 제거
+        print(data)
