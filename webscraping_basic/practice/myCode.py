@@ -285,23 +285,37 @@
 #         if idx >= 4: # 상위 5개까지만 출력
 #             break
 
-""" 12 """
-import csv
-from pyparsing import col
-import requests
-from bs4 import BeautifulSoup
+# """ 12 """
+# import csv
+# from pyparsing import col
+# import requests
+# from bs4 import BeautifulSoup
 
-url = "https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page="
+# url = "https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page="
 
-for page in range(1, 5):
-    res = requests.get(url+str(page))
-    res.raise_for_status()
-    soup = BeautifulSoup(res.text, "lxml")
+# filename = "시가총액1-200.csv"
+# f = open(filename, "w", encoding="utf-8-sig", newline="")
+# writer = csv.writer(f)
 
-    data_rows = soup.find("table", attrs={"class":"type_2"}).find("tbody").find_all("tr")
-    for row in data_rows:
-        columns = row.find_all("td")
-        if len(columns) <= 1: # 의미 없는 데이터 skip
-            continue
-        data = [column.get_text().strip() for column in columns] # strip(): 양쪽 공백 제거
-        print(data)
+# # title = "N	종목명	현재가	전일비	등락률	액면가	시가총액	상장주식수	외국인비율	거래량	PER	ROE	토론실".split("\t")
+# # writer.writerow(title)
+
+# for page in range(1, 5):
+#     res = requests.get(url+str(page))
+#     res.raise_for_status()
+#     soup = BeautifulSoup(res.text, "lxml")
+
+#     if page == 1:
+#         data_title = soup.find("table", attrs={"class":"type_2"}).find("thead").find_all("th")
+#         title = [i.get_text() for i in data_title]
+#         writer.writerow(title)
+
+#     data_rows = soup.find("table", attrs={"class":"type_2"}).find("tbody").find_all("tr")
+#     for row in data_rows:
+#         columns = row.find_all("td")
+#         if len(columns) <= 1: # 의미 없는 데이터 skip
+#             continue
+#         data = [column.get_text().strip() for column in columns] # strip(): 양쪽 공백 제거
+#         # print(data)
+#         writer.writerow(data)
+
