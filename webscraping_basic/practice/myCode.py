@@ -353,3 +353,19 @@
 # browser.quit()
 
 """ 14 """
+from selenium import webdriver
+import time
+
+browser = webdriver.Chrome("/Users/KDY/Workspace/python/python-from-scratch/webscraping_basic/practice/chromedriver")
+# browser.maximize_window()
+
+url = "https://flight.naver.com/"
+browser.get(url)
+
+browser.find_element_by_xpath('//*[@id="__next"]/div/div[1]/div[4]/div/div/div[2]/div[2]')[0].click()
+
+time.sleep(1)
+
+# 이번 달 27일, 28일 선택
+# browser.find_elements(By.LINK_TEXT, "27")[0].click() # [0] -> 이번 달
+# browser.find_elements(By.LINK_TEXT, "28")[0].click() # [0] -> 이번 달
