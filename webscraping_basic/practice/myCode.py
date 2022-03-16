@@ -352,31 +352,34 @@
 # # 7. 브라우저 종료
 # browser.quit()
 
-""" 14 """
-from selenium import webdriver
-import time
+# """ 14 """
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# import time
 
-browser = webdriver.Chrome("/Users/KDY/Workspace/python/python-from-scratch/webscraping_basic/practice/chromedriver")
-# browser.maximize_window()
+# browser = webdriver.Chrome("/Users/KDY/Workspace/python/python-from-scratch/webscraping_basic/practice/chromedriver")
+# # browser.maximize_window()
 
-url = "https://flight.naver.com/"
-browser.get(url)
+# url = "https://flight.naver.com/"
+# browser.get(url)
 
-try:
-    # elem = browser.find_element_by_xpath('\
-    #     //*[@id="__next"]/div/div[1]/div[4]/div/div/div[2]/div[2]/button[1]')
-    # print(elem.text)
-    # elem.click()
+# try:
+#     # elem = browser.find_element_by_xpath('\
+#     #     //*[@id="__next"]/div/div[1]/div[4]/div/div/div[2]/div[2]/button[1]')
+#     # print(elem.text)
+#     # elem.click()
     
-    browser.find_element_by_xpath('\
-        //*[@id="__next"]/div/div[1]/div[4]/div/div/div[2]/div[2]/button[1]').click()
-    elem = browser.find_elements_by_link_text("27") # [0] -> 이번 달
-    print(dir(elem))
-
-    # browser.find_elements_by_link_text("28").click() # [0] -> 이번 달
-
-    time.sleep(1)
+#     browser.find_element(By.XPATH, '//*[@id="__next"]/div/div[1]/div[4]/div/div/div[2]/div[2]/button[1]').click()
     
-finally:
-    pass
-    # browser.quit()
+#     print("\ndone\n")
+    
+#     browser.find_element(By.XPATH, '//*[@id="__next"]/div/div[1]/div[9]/div[2]/div[1]/div[2]/div/div[2]/table/tbody/tr[5]/td[1]').click()# [0] -> 이번 달
+#     browser.find_element(By.XPATH, '//*[@id="__next"]/div/div[1]/div[9]/div[2]/div[1]/div[2]/div/div[2]/table/tbody/tr[5]/td[2]').click()# [0] -> 이번 달
+    
+# finally:
+#     time.sleep(5)
+#     browser.quit()
+
+""" 15 """
+
+""" 16 """
