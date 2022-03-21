@@ -379,7 +379,3 @@
 # finally:
 #     time.sleep(5)
 #     browser.quit()
-
-""" 15 """
-
-""" 16 """
