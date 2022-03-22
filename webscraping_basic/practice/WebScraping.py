@@ -394,23 +394,23 @@
 
 # browser.get_screenshot_as_file("file_name.png")
 
-# """ 18 """
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
+""" 18 """
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-# options = webdriver.ChromeOptions()
-# options.headless = True
-# options.add_argument("window-size=2056x1329")
-# options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36")
+options = webdriver.ChromeOptions()
+options.headless = True
+options.add_argument("window-size=2056x1329")
+options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36")
 
-# browser = webdriver.Chrome("/Users/KDY/Workspace/python/python-from-scratch/webscraping_basic/practice/chromedriver", options=options)
-# browser.maximize_window()
+browser = webdriver.Chrome("/Users/KDY/Workspace/python/python-from-scratch/webscraping_basic/practice/chromedriver", options=options)
+browser.maximize_window()
 
-# url = "https://www.whatismybrowser.com/detect/what-is-my-user-agent/"
-# browser.get(url)
+url = "https://www.whatismybrowser.com/detect/what-is-my-user-agent/"
+browser.get(url)
 
-# # detected_value = browser.find_element_by_id("detected_value")
-# detected_value = browser.find_element(By.ID, "detected_value")
-# print("\n"+detected_value.text+"\n")
-# print("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36"==detected_value.text)
-# browser.quit()
+# detected_value = browser.find_element_by_id("detected_value")
+detected_value = browser.find_element(By.ID, "detected_value")
+print("\n"+detected_value.text+"\n")
+print("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36"==detected_value.text)
+browser.quit()
