@@ -396,6 +396,7 @@
 
 """ 18 """
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 options = webdriver.ChromeOptions()
 options.headless = True
@@ -408,7 +409,8 @@ browser.maximize_window()
 url = "https://www.whatismybrowser.com/detect/what-is-my-user-agent/"
 browser.get(url)
 
-detected_value = browser.find_element_by_id("detected_value")
+# detected_value = browser.find_element_by_id("detected_value")
+detected_value = browser.find_element(By.ID, "detected_value")
 print("\n"+detected_value.text+"\n")
-# print("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36"==detected_value.text)
+print("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36"==detected_value.text)
 browser.quit()
