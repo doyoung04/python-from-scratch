@@ -95,69 +95,94 @@
 #         print(ws.cell(row=x, column=y).value, end=" ")
 #     print()
 
-""" 5 """
-from openpyxl import Workbook
-from random import *
-wb = Workbook()
+# """ 5 """
+# from openpyxl import Workbook
+# from random import *
+# wb = Workbook()
+# ws = wb.active # 활성화된 거 가져오기
+
+# # 1줄 씩 데이터 넣기
+# ws.append(["번호", "영어", "수학"]) # A, B, C
+# for i in range(1, 11): # 10개 데이터
+#     ws.append([i, randint(0, 100), randint(0, 100)])
+
+# col_B = ws["B"] # column B 영어
+# # print(col_B)
+# # for cell in col_B:
+# #     print(cell.value)
+
+# col_range = ws["B:C"] # B부터 C까지
+# # for cols in col_range:
+# #     for cell in cols:
+# #         print(cell.value)
+
+# row_title = ws[1] # 1번째 row
+# # for cell in row_title:
+# #     print(cell.value)
+
+# row_range = ws[2:6] # 2번째 줄부터 6번째 줄까지 가지고 오기 2, 3, 4, 5, 6(6도 포함)
+# # for rows in row_range:
+# #     for cell in rows:
+# #         print(cell.value, end=" ")
+# #     print()
+
+# from openpyxl.utils.cell import coordinate_from_string
+
+# row_range = ws[2:ws.max_row] # 2번째 줄부터 마지막 줄까지
+# # for rows in row_range:
+# #     for cell in rows:
+# #         # print(cell.value, end=" ")
+# #         # print(cell.coordinate, end=" ") # cell 번호 출력
+# #         xy = coordinate_from_string(cell.coordinate)
+# #         # print(xy, end=" ")
+# #         print(xy[0], xy[1], end=" ")
+# #     print()
+
+# # # 전체 rows
+# # print(tuple(ws.rows))
+# # for row in tuple(ws.rows):
+# #     print(row[2].value)
+
+# # # 전체 columns
+# # print(tuple(ws.columns))
+# # for column in tuple(ws.columns):
+# #     print(column[0].value)
+
+# # for row in ws.iter_rows(): # 전체 row
+# #     print(row[2].value)
+
+# # for column in ws.iter_cols(): # 전체 column
+# #     print(column[0].value)
+
+# # # 2번째 줄부터 11번째 줄까지, 2번째 열부터 3번째 열까지
+# # for row in ws.iter_rows(min_row=2, max_row=11, min_col=2, max_col=3):
+# #     # print(row[0].value, row[1].value) # 수학, 영어
+# #     print(row)
+
+# # for col in ws.iter_cols(min_row=1, max_row=5, min_col=1, max_col=3):
+# #     print(col)
+
+# wb.save("sample05.xlsx")
+
+# """ 6 """
+# from openpyxl import load_workbook
+# wb = load_workbook("sample05.xlsx")
+# ws = wb.active # 활성화된 거 가져오기
+
+# for row in ws.iter_rows(min_row=2):
+#     # 번호, 영어, 수학
+#     if int(row[1].value) > 80:
+#         print(row[0].value, "번 학생은 영어 천재")
+
+# for row in ws.iter_rows(max_row=1):
+#     for cell in row:
+#         if cell.value == "영어":
+#             cell.value = "컴퓨터"
+
+# wb.save("sample06.xlsx")
+
+""" 7 """
+from openpyxl import load_workbook
+wb = load_workbook("sample05.xlsx")
 ws = wb.active # 활성화된 거 가져오기
 
-# 1줄 씩 데이터 넣기
-ws.append(["번호", "영어", "수학"]) # A, B, C
-for i in range(1, 11): # 10개 데이터
-    ws.append([i, randint(0, 100), randint(0, 100)])
-
-col_B = ws["B"] # column B 영어
-# print(col_B)
-# for cell in col_B:
-#     print(cell.value)
-
-col_range = ws["B:C"] # B부터 C까지
-# for cols in col_range:
-#     for cell in cols:
-#         print(cell.value)
-
-row_title = ws[1] # 1번째 row
-# for cell in row_title:
-#     print(cell.value)
-
-row_range = ws[2:6] # 2번째 줄부터 6번째 줄까지 가지고 오기 2, 3, 4, 5, 6(6도 포함)
-# for rows in row_range:
-#     for cell in rows:
-#         print(cell.value, end=" ")
-#     print()
-
-from openpyxl.utils.cell import coordinate_from_string
-
-row_range = ws[2:ws.max_row] # 2번째 줄부터 마지막 줄까지
-# for rows in row_range:
-#     for cell in rows:
-#         # print(cell.value, end=" ")
-#         # print(cell.coordinate, end=" ") # cell 번호 출력
-#         xy = coordinate_from_string(cell.coordinate)
-#         # print(xy, end=" ")
-#         print(xy[0], xy[1], end=" ")
-#     print()
-
-# # 전체 rows
-# print(tuple(ws.rows))
-# for row in tuple(ws.rows):
-#     print(row[2].value)
-
-# # 전체 columns
-# print(tuple(ws.columns))
-# for column in tuple(ws.columns):
-#     print(column[0].value)
-
-# for row in ws.iter_rows(): # 전체 row
-#     print(row[2].value)
-
-# for column in ws.iter_cols(): # 전체 column
-#     print(column[0].value)
-
-# # 2번째 줄부터 11번째 줄까지, 2번째 열부터 3번째 열까지
-# for row in ws.iter_rows(min_row=2, max_row=11, min_col=2, max_col=3):
-#     # print(row[0].value, row[1].value) # 수학, 영어
-#     print(row)
-
-# for col in ws.iter_cols(min_row=1, max_row=5, min_col=1, max_col=3):
-#     print(col)
