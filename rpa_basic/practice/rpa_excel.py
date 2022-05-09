@@ -161,5 +161,3 @@ row_range = ws[2:ws.max_row] # 2번째 줄부터 마지막 줄까지
 
 # for col in ws.iter_cols(min_row=1, max_row=5, min_col=1, max_col=3):
 #     print(col)
-
-wb.save("sample05.xlsx")
