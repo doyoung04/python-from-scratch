@@ -9,6 +9,8 @@ res.raise_for_status()
 soup = BeautifulSoup(res.text, "lxml")
 price_old = soup.find("div", attrs={"class":"YMlKec fxKbKc"})
 
+print("Please wait.")
+
 while True:
     res = requests.get(url, headers=headers)
     res.raise_for_status()
